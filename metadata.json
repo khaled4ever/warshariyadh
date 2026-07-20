@@ -1,0 +1,6 @@
+{
+  "name": "صيانة السيارات المتنقلة بالرياض",
+  "description": "أسرع خدمة صيانة سيارات متنقلة في الرياض أمام منزلك أو في موقعك. فحص وبرمجة كمبيوتر، ميكانيكا، كهرباء، تكييف، فرامل، بطاريات وهيدروليك.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
