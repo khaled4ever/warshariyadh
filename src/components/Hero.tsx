@@ -1,5 +1,6 @@
 import { Phone, CheckCircle2, Clock, MapPin, Shield } from 'lucide-react';
 import { motion } from 'motion/react';
+import { trackGoogleConversion } from '../utils/analytics';
 
 export default function Hero() {
   const phoneNumber = '0561241984';
@@ -65,6 +66,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <a
                 href={`tel:${phoneNumber}`}
+                onClick={trackGoogleConversion}
                 className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-slate-950 font-black text-base px-8 py-4 rounded-2xl flex items-center justify-center gap-3 shadow-[0_8px_30px_rgba(245,158,11,0.3)] transition-all duration-300"
               >
                 <Phone size={20} className="stroke-[2.5]" />
@@ -74,6 +76,7 @@ export default function Hero() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={trackGoogleConversion}
                 className="bg-slate-900 hover:bg-slate-850 text-white border border-slate-800 hover:border-emerald-500/40 hover:text-emerald-400 font-bold text-base px-8 py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300"
               >
                 {/* Custom WhatsApp SVG */}

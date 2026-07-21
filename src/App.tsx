@@ -9,12 +9,16 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import FloatingActions from './components/FloatingActions';
+import { trackGoogleConversion } from './utils/analytics';
 
 export default function App() {
   const [selectedService, setSelectedService] = useState<string>('');
   const [additionalNotes, setAdditionalNotes] = useState<string>('');
 
   const handleSelectService = (serviceTitle: string) => {
+    // Trigger Google Ads Conversion Tracking
+    trackGoogleConversion();
+
     // Construct WhatsApp message
     const phoneNumber = '966561241984'; // Riyadh phone number
     const text = `مرحباً فني صيانة الرشود بالرياض،

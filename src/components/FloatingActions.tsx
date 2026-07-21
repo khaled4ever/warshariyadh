@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Phone, MessageCircle, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { trackGoogleConversion } from '../utils/analytics';
 
 export default function FloatingActions() {
   const [showNotification, setShowNotification] = useState(false);
@@ -39,6 +40,7 @@ export default function FloatingActions() {
               <div className="flex gap-2 mt-3">
                 <a
                   href={callUrl}
+                  onClick={trackGoogleConversion}
                   className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-[11px] px-3 py-1.5 rounded-lg flex items-center gap-1 transition-all duration-200"
                 >
                   <Phone size={12} />
@@ -48,6 +50,7 @@ export default function FloatingActions() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={trackGoogleConversion}
                   className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg flex items-center gap-1 transition-all duration-200"
                 >
                   {/* WhatsApp SVG */}
@@ -74,6 +77,7 @@ export default function FloatingActions() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={trackGoogleConversion}
           className="group relative flex items-center justify-center w-14 h-14 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-[0_8px_30px_rgb(16,185,129,0.3)] hover:scale-110 active:scale-95 transition-all duration-300"
           title="راسلنا على واتساب"
           id="btn-whatsapp"
@@ -94,6 +98,7 @@ export default function FloatingActions() {
         {/* Call Button */}
         <a
           href={callUrl}
+          onClick={trackGoogleConversion}
           className="group relative flex items-center justify-center w-14 h-14 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-full shadow-[0_8px_30px_rgb(245,158,11,0.3)] hover:scale-110 active:scale-95 transition-all duration-300"
           title="اتصل بنا الآن"
           id="btn-call"

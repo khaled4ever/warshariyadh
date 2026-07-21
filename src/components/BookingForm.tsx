@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Phone, Car, MapPin, MessageSquare, Check, Loader2, Send, Wrench } from 'lucide-react';
 import { servicesData } from '../data';
+import { trackGoogleConversion } from '../utils/analytics';
 
 interface BookingFormProps {
   selectedService: string;
@@ -63,6 +64,9 @@ export default function BookingForm({ selectedService, additionalNotes }: Bookin
 
     setIsLoading(true);
     
+    // Trigger Google Ads Conversion Tracking
+    trackGoogleConversion();
+    
     // Call WhatsApp immediately so the browser does not block it as a popup
     handleSendToWhatsapp();
 
@@ -74,6 +78,9 @@ export default function BookingForm({ selectedService, additionalNotes }: Bookin
   };
 
   const handleSendToWhatsapp = () => {
+    // Trigger Google Ads Conversion Tracking as fallback or secondary click
+    trackGoogleConversion();
+
     const text = `مرحباً فني صيانة الرشود بالرياض،
 أود طلب خدمة صيانة متنقلة فورية بالتفاصيل التالية:
 
