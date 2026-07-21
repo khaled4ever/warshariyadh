@@ -1,9 +1,18 @@
-import React from 'react';
-import { Wrench, Phone, Mail, MapPin, ShieldAlert } from 'lucide-react';
+import React, { useState } from 'react';
+import { Wrench, Phone, Mail, MapPin, ShieldAlert, ShieldCheck, Scale, FileText } from 'lucide-react';
+import PoliciesModal from './PoliciesModal';
 
 export default function Footer() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTab, setModalTab] = useState<'privacy' | 'terms' | 'disclaimer'>('privacy');
+  
   const phoneNumber = '0561241984';
   const displayPhone = '0561241984';
+
+  const openPolicies = (tab: 'privacy' | 'terms' | 'disclaimer') => {
+    setModalTab(tab);
+    setIsModalOpen(true);
+  };
 
   const servicesLinks = [
     { label: 'فحص كمبيوتر وبرمجة', href: '#services' },
@@ -120,12 +129,50 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Sub-footer copyright */}
-      <div className="bg-slate-950 border-t border-slate-900/60 py-6 text-center">
+      {/* Sub-footer copyright and Google Ads Compliance Links */}
+      <div className="bg-slate-950 border-t border-slate-900/60 py-8 text-center space-y-4">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500 font-bold">
+          <button 
+            onClick={() => openPolicies('privacy')} 
+            className="hover:text-amber-500 transition-colors cursor-pointer flex items-center gap-1"
+          >
+            <ShieldCheck size={14} />
+            <span>سياسة الخصوصية</span>
+          </button>
+          <span className="text-slate-800">|</span>
+          <button 
+            onClick={() => openPolicies('terms')} 
+            className="hover:text-amber-500 transition-colors cursor-pointer flex items-center gap-1"
+          >
+            <FileText size={14} />
+            <span>الشروط والأحكام</span>
+          </button>
+          <span className="text-slate-800">|</span>
+          <button 
+            onClick={() => openPolicies('disclaimer')} 
+            className="hover:text-amber-500 transition-colors cursor-pointer flex items-center gap-1"
+          >
+            <Scale size={14} />
+            <span>إخلاء المسؤولية والضمان</span>
+          </button>
+        </div>
+
         <p className="text-[11px] text-slate-500">
           جميع الحقوق محفوظة &copy; {new Date().getFullYear()} الرشود لصيانة السيارات المتنقلة في الرياض.
         </p>
+
+        {/* Brand Independent Disclosure for Google Ads Compliance */}
+        <div className="max-w-3xl mx-auto px-4 text-[10px] text-slate-600 leading-relaxed">
+          تنويه: الرشود هي ورشة متنقلة مستقلة تقدم خدمات فحص وصيانة السيارات بالرياض. جميع أسماء الشركات، الماركات، والشعارات الواردة في هذا الموقع هي علامات تجارية مملوكة لأصحابها وتُستخدم هنا لأغراض تعريفية لتوضيح توافق الخدمة فقط، ولا توجد أي علاقة وكالة أو شراكة رسمية مع أي من مصنعي السيارات.
+        </div>
       </div>
+
+      {/* Policies Modal overlay */}
+      <PoliciesModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        initialTab={modalTab} 
+      />
 
     </footer>
   );

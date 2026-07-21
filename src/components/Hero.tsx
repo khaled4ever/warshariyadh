@@ -5,7 +5,7 @@ export default function Hero() {
   const phoneNumber = '0561241984';
   const whatsappUrl = `https://wa.me/966561241984?text=${encodeURIComponent('مرحباً، أريد طلب خدمة صيانة متنقلة فورية لسيارتي بالرياض.')}`;
   // Generated image path
-  const heroImage = '/src/assets/images/riyadh_mobile_mechanic_1784556705572.jpg';
+  const heroImage = 'https://i.postimg.cc/JnZw6pDH/riyadh-mobile-mechanic-1784556705572.jpg';
 
   const stats = [
     { label: 'متوسط وقت الوصول', value: '30 دقيقة', icon: Clock, color: 'text-amber-500' },

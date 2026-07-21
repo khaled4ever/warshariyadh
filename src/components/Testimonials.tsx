@@ -12,7 +12,7 @@ export default function Testimonials() {
           <p className="text-3xl sm:text-4xl font-black text-white">آراء وتجارب عملائنا في الرياض</p>
           <div className="w-16 h-1 bg-amber-500 mx-auto rounded-full"></div>
           <p className="text-slate-400 text-sm">
-            بفضل الله قمنا بصيانة آلاف السيارات في كافة أنحاء الرياض بنسبة نجاح 100٪. تفخر ورشة الرشود بتقديم خدمة ممتازة.
+            بفضل الله قمنا بصيانة آلاف السيارات في كافة أنحاء الرياض بأعلى مستويات الاحترافية وبنسبة رضا عالية جداً من عملائنا. تفخر ورشة الرشود بتقديم خدمة ممتازة.
           </p>
         </div>
 
