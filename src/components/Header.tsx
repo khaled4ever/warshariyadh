@@ -74,7 +74,10 @@ export default function Header() {
     setIsOpen(false);
     setIsDropdownOpen(false);
 
-    const targetElement = document.getElementById(`service-card-${id}`);
+    // Update URL hash smoothly without jump
+    window.history.pushState(null, '', `#${id}`);
+
+    const targetElement = document.getElementById(id) || document.getElementById(`service-card-${id}`);
     if (targetElement) {
       // Scroll to the specific service card
       targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -148,7 +151,7 @@ export default function Header() {
                             return (
                               <a
                                 key={service.id}
-                                href={`#service-card-${service.id}`}
+                                href={`#${service.id}`}
                                 onClick={(e) => handleServiceClick(e, service.id)}
                                 className="group flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-900/50 transition-all duration-150 text-slate-400 hover:text-amber-400"
                               >
@@ -241,7 +244,7 @@ export default function Header() {
                     return (
                       <a
                         key={service.id}
-                        href={`#service-card-${service.id}`}
+                        href={`#${service.id}`}
                         onClick={(e) => handleServiceClick(e, service.id)}
                         className="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-900/40 text-slate-400 hover:text-white transition-all duration-150"
                       >

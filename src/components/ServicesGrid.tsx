@@ -15,7 +15,8 @@ import {
   ChevronDown,
   ChevronUp,
   PhoneCall,
-  MessageSquareCode
+  MessageSquareCode,
+  Link
 } from 'lucide-react';
 import { servicesData } from '../data';
 import { Service } from '../types';
@@ -38,6 +39,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 
 export default function ServicesGrid({ onSelectService }: { onSelectService: (serviceName: string) => void }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     const handleExpandEvent = (e: Event) => {
@@ -47,8 +49,31 @@ export default function ServicesGrid({ onSelectService }: { onSelectService: (se
       }
     };
     window.addEventListener('expand-service-card', handleExpandEvent);
+
+    // Dynamic hash-based navigation logic
+    const checkHashAndScroll = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const cleanId = hash.replace('#', '');
+        const found = servicesData.find(s => s.id === cleanId);
+        if (found) {
+          setExpandedId(found.id);
+          const element = document.getElementById(found.id);
+          if (element) {
+            setTimeout(() => {
+              element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+          }
+        }
+      }
+    };
+
+    checkHashAndScroll();
+    window.addEventListener('hashchange', checkHashAndScroll);
+
     return () => {
       window.removeEventListener('expand-service-card', handleExpandEvent);
+      window.removeEventListener('hashchange', checkHashAndScroll);
     };
   }, []);
 
@@ -58,6 +83,21 @@ export default function ServicesGrid({ onSelectService }: { onSelectService: (se
     } else {
       setExpandedId(id);
     }
+  };
+
+  const handleCopyLink = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}${window.location.pathname}#${id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2500);
+      
+      // Also scroll and expand it as a visual feedback
+      setExpandedId(id);
+      window.history.pushState(null, '', `#${id}`);
+    }).catch(err => {
+      console.error('Failed to copy link:', err);
+    });
   };
 
   const getCategoryColor = (category: string) => {
@@ -108,12 +148,12 @@ export default function ServicesGrid({ onSelectService }: { onSelectService: (se
             return (
               <div
                 key={service.id}
+                id={service.id}
                 className={`group relative overflow-hidden rounded-2xl bg-slate-950 border transition-all duration-300 flex flex-col justify-between ${
                   isExpanded
                     ? 'border-amber-500/60 shadow-[0_4px_30px_rgba(245,158,11,0.15)] ring-1 ring-amber-500/20'
                     : 'border-slate-800/80 hover:border-slate-700 hover:shadow-xl hover:shadow-slate-950/40'
                 }`}
-                id={`service-card-${service.id}`}
               >
                 {/* Header glow */}
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-amber-500/10 to-transparent rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -124,9 +164,27 @@ export default function ServicesGrid({ onSelectService }: { onSelectService: (se
                     <span className={`text-[10px] font-bold px-3 py-1 rounded-full border ${getCategoryColor(service.category)}`}>
                       {getCategoryLabel(service.category)}
                     </span>
-                    <span className={`p-3 rounded-xl bg-slate-900 border border-slate-800 text-amber-500 group-hover:text-amber-400 group-hover:bg-amber-500/10 group-hover:border-amber-500/20 transition-all duration-300`}>
-                      <IconComponent size={24} className="stroke-[2]" />
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={(e) => handleCopyLink(e, service.id)}
+                        className="p-2 text-slate-500 hover:text-amber-500 hover:border-amber-500/30 bg-slate-900 hover:bg-slate-850 border border-slate-800/80 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center relative group/btn"
+                        title="نسخ رابط مباشر وسريع للخدمة"
+                      >
+                        {copiedId === service.id ? (
+                          <span className="text-[10px] font-bold text-emerald-400 absolute -top-8 bg-slate-950 border border-emerald-500/30 px-2 py-0.5 rounded shadow-lg animate-fadeIn whitespace-nowrap z-20">
+                            تم نسخ الرابط المباشر!
+                          </span>
+                        ) : (
+                          <span className="text-[9px] font-bold text-slate-400 absolute -top-8 bg-slate-950 border border-slate-800 px-2 py-0.5 rounded shadow-lg opacity-0 group-hover/btn:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
+                            رابط سريع
+                          </span>
+                        )}
+                        <Link size={14} className="stroke-[2.5]" />
+                      </button>
+                      <span className={`p-3 rounded-xl bg-slate-900 border border-slate-800 text-amber-500 group-hover:text-amber-400 group-hover:bg-amber-500/10 group-hover:border-amber-500/20 transition-all duration-300`}>
+                        <IconComponent size={24} className="stroke-[2]" />
+                      </span>
+                    </div>
                   </div>
 
                   {/* Title & Description */}
